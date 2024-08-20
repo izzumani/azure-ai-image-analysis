@@ -1,0 +1,154 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\isaac\\AppData\\Roaming\\Microsoft\\UserSecrets\\937edb53-de8b-439f-8106-9cc099a6d126\\secrets.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\image-analysis.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:image-analysis.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\images\\street.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:images\\street.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\images\\person.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:images\\person.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\images\\building.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:images\\building.jpg||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|d:\\projects\\azure ai 102 - azure ai vision\\mslearn-ai-vision\\labfiles\\01-analyze-images\\c-sharp\\image-analysis\\image-analysis.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5CB071F1-E664-4D08-AC89-0DB7A8D3AE6D}|image-analysis.csproj|solutionrelative:image-analysis.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAIAwwNAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T23:13:33.212Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-20T00:10:31.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "street.jpg",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\street.jpg",
+              "RelativeDocumentMoniker": "images\\street.jpg",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\street.jpg",
+              "RelativeToolTip": "images\\street.jpg",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2024-08-19T23:30:34.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "person.jpg",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\person.jpg",
+              "RelativeDocumentMoniker": "images\\person.jpg",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\person.jpg",
+              "RelativeToolTip": "images\\person.jpg",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2024-08-19T23:30:31.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "building.jpg",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\building.jpg",
+              "RelativeDocumentMoniker": "images\\building.jpg",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\images\\building.jpg",
+              "RelativeToolTip": "images\\building.jpg",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2024-08-19T23:30:25.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "secrets.json",
+              "DocumentMoniker": "C:\\Users\\isaac\\AppData\\Roaming\\Microsoft\\UserSecrets\\937edb53-de8b-439f-8106-9cc099a6d126\\secrets.json",
+              "ToolTip": "C:\\Users\\isaac\\AppData\\Roaming\\Microsoft\\UserSecrets\\937edb53-de8b-439f-8106-9cc099a6d126\\secrets.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-19T23:20:27.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "image-analysis",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\image-analysis.csproj",
+              "RelativeDocumentMoniker": "image-analysis.csproj",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\image-analysis.csproj",
+              "RelativeToolTip": "image-analysis.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-08-19T23:13:55.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "image-analysis",
+              "DocumentMoniker": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\image-analysis.csproj",
+              "RelativeDocumentMoniker": "image-analysis.csproj",
+              "ToolTip": "D:\\Projects\\Azure AI 102 - Azure AI Vision\\mslearn-ai-vision\\Labfiles\\01-analyze-images\\C-Sharp\\image-analysis\\image-analysis.csproj",
+              "RelativeToolTip": "image-analysis.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-08-19T23:13:44.655Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
