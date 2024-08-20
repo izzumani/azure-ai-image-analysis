@@ -12,6 +12,11 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 // Import namespaces
 using Azure.AI.Vision.ImageAnalysis;
+using Azure.Storage.Blobs;
+using System.Collections.Generic;
+using Azure.Storage.Blobs.Models;
+using System.Linq;
+using System.Drawing.Imaging;
 
 // Import namespaces
 
@@ -21,6 +26,8 @@ namespace image_analysis
     {
         
         private static SecretClient keyVaultClient;
+        private static BlobServiceClient _blobServiceClient;
+        private static BlobContainerClient _containerClient;
         static async Task Main(string[] args)
         {
 
@@ -44,28 +51,35 @@ namespace image_analysis
                 var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
                 ClientSecretCredential credential = new ClientSecretCredential(appTenant, appId, appPassword);
                 keyVaultClient = new SecretClient(keyVaultUri, credential);
+
+                 _blobServiceClient = new BlobServiceClient(keyVaultClient.GetSecret("StorageConnectionString").Value.Value);
+             _containerClient = _blobServiceClient.GetBlobContainerClient("image-analysis");
+
                 string? aiSvcEndpoint = config["AIServicesEndpoint"];
                 string? aiSvcKey = config["AIServicesKey"];
 
-
-                // Get image
-                string imageFile = "images/street.jpg";
-                if (args.Length > 0)
-                {
-                    imageFile = args[0];
-                }
-
-                // Authenticate Azure AI Vision client
                 // Authenticate Azure AI Vision client
                 ImageAnalysisClient client = new ImageAnalysisClient(
                     new Uri(aiSvcEndpoint),
                     new AzureKeyCredential(aiSvcKey));
 
-                // Analyze image
-                AnalyzeImage(imageFile, client);
+                var imageFiles =  await ProcessImageFolder("raw-images");
 
-                // Remove the background or generate a foreground matte from the image
-                await BackgroundForeground(imageFile, aiSvcEndpoint, aiSvcKey);
+                // Get image
+                imageFiles.ForEach((_imageFile) =>
+                {
+                    // Analyze image
+                    AnalyzeImage(_imageFile, client);
+
+                    // Remove the background or generate a foreground matte from the image
+                    // await BackgroundForeground(_imageFile, aiSvcEndpoint, aiSvcKey);
+                });
+
+                //var _imageFile = imageFiles.FirstOrDefault();
+
+                //AnalyzeImage("raw-images/street.jpg", client);
+
+
 
             }
             catch (Exception ex)
@@ -74,109 +88,147 @@ namespace image_analysis
             }
         }
 
-        static void AnalyzeImage(string imageFile, ImageAnalysisClient client)
+        static  void AnalyzeImage(string imageFile, ImageAnalysisClient client)
         {
-            Console.WriteLine($"\nAnalyzing {imageFile} \n");
-
-            // Use a file stream to pass the image data to the analyze call
-            using FileStream stream = new FileStream(imageFile,
-                                                     FileMode.Open);
-
-            // Get result with specified features to be retrieved
-            ImageAnalysisResult result = client.Analyze(
-                BinaryData.FromStream(stream),
-                VisualFeatures.Caption |
-                VisualFeatures.DenseCaptions |
-                VisualFeatures.Objects |
-                VisualFeatures.Tags |
-                VisualFeatures.People);
-
-
-            // Display analysis results
-            // Get image captions
-            if (result.Caption.Text != null)
+            var memoryStream = new MemoryStream();
+            BlobClient blobClient;
+            try
             {
-                Console.WriteLine(" Caption:");
-                Console.WriteLine($"   \"{result.Caption.Text}\", Confidence {result.Caption.Confidence:0.00}\n");
-            }
+                Console.WriteLine($"\nAnalyzing {imageFile} \n");
 
-            // Get image dense captions
-            Console.WriteLine(" Dense Captions:");
-            foreach (DenseCaption denseCaption in result.DenseCaptions.Values)
-            {
-                Console.WriteLine($"   Caption: '{denseCaption.Text}', Confidence: {denseCaption.Confidence:0.00}");
-            }
+                // Use a file stream to pass the image data to the analyze call
+                blobClient = _containerClient.GetBlobClient(imageFile);
+                
+                blobClient.DownloadTo(memoryStream);
+                memoryStream.Position = 0;
+                var contentType = blobClient.GetProperties().Value.ContentType;
+                // Get result with specified features to be retrieved
+                ImageAnalysisResult result = client.Analyze(
+                    BinaryData.FromStream(memoryStream),
+                    VisualFeatures.Caption |
+                    VisualFeatures.DenseCaptions |
+                    VisualFeatures.Objects |
+                    VisualFeatures.Tags |
+                    VisualFeatures.People);
 
-            // Get image tags
-            if (result.Tags.Values.Count > 0)
-            {
-                Console.WriteLine($"\n Tags:");
-                foreach (DetectedTag tag in result.Tags.Values)
+
+                // Display analysis results
+                // Get image captions
+                if (result.Caption.Text != null)
                 {
-                    Console.WriteLine($"   '{tag.Name}', Confidence: {tag.Confidence:F2}");
-                }
-            }
-
-
-            // Get objects in the image
-            if (result.Objects.Values.Count > 0)
-            {
-                Console.WriteLine(" Objects:");
-
-                // Prepare image for drawing
-                stream.Close();
-                System.Drawing.Image image = System.Drawing.Image.FromFile(imageFile);
-                Graphics graphics = Graphics.FromImage(image);
-                Pen pen = new Pen(Color.Cyan, 3);
-                Font font = new Font("Arial", 16);
-                SolidBrush brush = new SolidBrush(Color.WhiteSmoke);
-
-                foreach (DetectedObject detectedObject in result.Objects.Values)
-                {
-                    Console.WriteLine($"   \"{detectedObject.Tags[0].Name}\"");
-
-                    // Draw object bounding box
-                    var r = detectedObject.BoundingBox;
-                    Rectangle rect = new Rectangle(r.X, r.Y, r.Width, r.Height);
-                    graphics.DrawRectangle(pen, rect);
-                    graphics.DrawString(detectedObject.Tags[0].Name, font, brush, (float)r.X, (float)r.Y);
+                    Console.WriteLine(" Caption:");
+                    Console.WriteLine($"   \"{result.Caption.Text}\", Confidence {result.Caption.Confidence:0.00}\n");
                 }
 
-                // Save annotated image
-                String output_file = "objects.jpg";
-                image.Save(output_file);
-                Console.WriteLine("  Results saved in " + output_file + "\n");
-            }
-
-
-            // Get people in the image
-            if (result.People.Values.Count > 0)
-            {
-                Console.WriteLine($" People:");
-
-                // Prepare image for drawing
-                System.Drawing.Image image = System.Drawing.Image.FromFile(imageFile);
-                Graphics graphics = Graphics.FromImage(image);
-                Pen pen = new Pen(Color.Cyan, 3);
-                Font font = new Font("Arial", 16);
-                SolidBrush brush = new SolidBrush(Color.WhiteSmoke);
-
-                foreach (DetectedPerson person in result.People.Values)
+                // Get image dense captions
+                Console.WriteLine(" Dense Captions:");
+                foreach (DenseCaption denseCaption in result.DenseCaptions.Values)
                 {
-                    // Draw object bounding box
-                    var r = person.BoundingBox;
-                    Rectangle rect = new Rectangle(r.X, r.Y, r.Width, r.Height);
-                    graphics.DrawRectangle(pen, rect);
-
-                    // Return the confidence of the person detected
-                    //Console.WriteLine($"   Bounding box {person.BoundingBox.ToString()}, Confidence: {person.Confidence:F2}");
+                    Console.WriteLine($"   Caption: '{denseCaption.Text}', Confidence: {denseCaption.Confidence:0.00}");
                 }
 
-                // Save annotated image
-                String output_file = "persons.jpg";
-                image.Save(output_file);
-                Console.WriteLine("  Results saved in " + output_file + "\n");
+                // Get image tags
+                if (result.Tags.Values.Count > 0)
+                {
+                    Console.WriteLine($"\n Tags:");
+                    foreach (DetectedTag tag in result.Tags.Values)
+                    {
+                        Console.WriteLine($"   '{tag.Name}', Confidence: {tag.Confidence:F2}");
+                    }
+                }
+
+
+                // Get objects in the image
+                if (result.Objects.Values.Count > 0)
+                {
+                    Console.WriteLine(" Objects:");
+
+                    // Prepare image for drawing
+                    
+                    System.Drawing.Image image = System.Drawing.Image.FromStream(memoryStream);
+                    Graphics graphics = Graphics.FromImage(image);
+                    Pen pen = new Pen(Color.Cyan, 3);
+                    Font font = new Font("Arial", 16);
+                    SolidBrush brush = new SolidBrush(Color.WhiteSmoke);
+
+                    foreach (DetectedObject detectedObject in result.Objects.Values)
+                    {
+                        Console.WriteLine($"   \"{detectedObject.Tags[0].Name}\"");
+
+                        // Draw object bounding box
+                        var r = detectedObject.BoundingBox;
+                        Rectangle rect = new Rectangle(r.X, r.Y, r.Width, r.Height);
+                        graphics.DrawRectangle(pen, rect);
+                        graphics.DrawString(detectedObject.Tags[0].Name, font, brush, (float)r.X, (float)r.Y);
+                    }
+
+                    
+                    // Save annotated image
+                    String output_file = $"processed/{DateTime.Now.ToString("yyyMMdd")}/objects.jpg";
+                    blobClient = _containerClient.GetBlobClient(output_file);
+                    using (MemoryStream imageMemStream = new MemoryStream())
+                    {
+                        image.Save(imageMemStream, ImageFormat.Jpeg);
+                        imageMemStream.Position = 0;
+                        blobClient.Upload(imageMemStream, true);
+                    }
+                    
+                    
+                    Console.WriteLine("  Results saved in " + output_file + "\n");
+                }
+
+
+                // Get people in the image
+                if (result.People.Values.Count > 0)
+                {
+                    Console.WriteLine($" People:");
+
+                    // Prepare image for drawing
+                    System.Drawing.Image image = System.Drawing.Image.FromStream(memoryStream);
+                    Graphics graphics = Graphics.FromImage(image);
+                    Pen pen = new Pen(Color.Cyan, 3);
+                    Font font = new Font("Arial", 16);
+                    SolidBrush brush = new SolidBrush(Color.WhiteSmoke);
+
+                    foreach (DetectedPerson person in result.People.Values)
+                    {
+                        // Draw object bounding box
+                        var r = person.BoundingBox;
+                        Rectangle rect = new Rectangle(r.X, r.Y, r.Width, r.Height);
+                        graphics.DrawRectangle(pen, rect);
+
+                        // Return the confidence of the person detected
+                        //Console.WriteLine($"   Bounding box {person.BoundingBox.ToString()}, Confidence: {person.Confidence:F2}");
+                    }
+
+                    
+                    // Save annotated image
+                    String output_file = $"processed/{DateTime.Now.ToString("yyyMMdd")}/persons.jpg";
+                    blobClient = _containerClient.GetBlobClient(output_file);
+                    using (MemoryStream imageMemStream = new MemoryStream())
+                    {
+                        image.Save(imageMemStream, ImageFormat.Jpeg);
+                        imageMemStream.Position = 0;
+                        blobClient.Upload(imageMemStream, true);
+                    }
+
+
+                    //String output_file = "persons.jpg";
+                    //image.Save(output_file);
+                    Console.WriteLine("  Results saved in " + output_file + "\n");
+                }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                memoryStream.Close();
+                blobClient = null;
+            }
+            
 
 
         }
@@ -218,6 +270,21 @@ namespace image_analysis
                 }
             }
 
+        }
+
+        public async static Task<List<string>> ProcessImageFolder(string folderPath)
+        {
+            var blobs = new List<string>();
+            List<string> _blobImageFiles= new();
+
+        
+            await foreach (var blobItem in _containerClient.GetBlobsAsync(BlobTraits.None, BlobStates.None, folderPath))
+            {
+                _blobImageFiles.Add(blobItem.Name);
+
+            }
+
+            return _blobImageFiles;
         }
     }
 }
